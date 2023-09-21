@@ -4,15 +4,35 @@ const ctx = canvas.getContext("2d");
 
 const dpr = window.devicePixelRatio;
 
-const canvasWidth = innerWidth;
-const canvasHeight = innerHeight;
+let canvasWidth;
+let canvasHeight;
+let particles;
 
-canvas.style.width = canvasWidth + "px";
-canvas.style.height = canvasHeight + "px";
+function init() {
+  canvasWidth = innerWidth;
+  canvasHeight = innerHeight;
 
-canvas.width = canvasWidth * dpr;
-canvas.height = canvasHeight * dpr;
-ctx.scale(dpr, dpr);
+  canvas.style.width = canvasWidth + "px";
+  canvas.style.height = canvasHeight + "px";
+
+  canvas.width = canvasWidth * dpr;
+  canvas.height = canvasHeight * dpr;
+  ctx.scale(dpr, dpr);
+
+  particles = [];
+
+  const TOTAL = canvasWidth / 10;
+
+  for (let i = 0; i < TOTAL; i++) {
+    const x = randomNumBetween(0, canvasWidth);
+    const y = randomNumBetween(0, canvasHeight);
+    const radius = randomNumBetween(50, 100);
+    const vy = randomNumBetween(1, 5);
+
+    const particle = new Particle(x, y, radius, vy);
+    particles.push(particle);
+  }
+}
 
 const feGaussianBlur = document.querySelector("feGaussianBlur");
 const fecolorMatrix = document.querySelector("fecolorMatrix");
@@ -78,21 +98,9 @@ const x = 100;
 const y = 100;
 const radius = 50;
 const particle = new Particle(x, y, radius);
-const TOTAL = 20;
 const randomNumBetween = (min, max) => {
   return Math.random() * (max - min + 1) + min;
 };
-let particles = [];
-
-for (let i = 0; i < TOTAL; i++) {
-  const x = randomNumBetween(0, canvasWidth);
-  const y = randomNumBetween(0, canvasHeight);
-  const radius = randomNumBetween(50, 100);
-  const vy = randomNumBetween(1, 5);
-
-  const particle = new Particle(x, y, radius, vy);
-  particles.push(particle);
-}
 
 let interval = 1000 / 60;
 let now, delta;
@@ -120,4 +128,12 @@ function animate() {
 
   then = now - (delta % interval);
 }
-animate();
+
+window.addEventListener("load", () => {
+  init();
+  animate();
+});
+
+window.addEventListener("resize", () => {
+  init();
+});
