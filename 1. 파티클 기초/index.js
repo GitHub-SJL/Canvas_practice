@@ -20,9 +20,11 @@ class Particle {
     this.y = y;
     this.radius = radius;
     this.vy = vy;
+    this.acc = 1.03;
   }
 
   update() {
+    this.vy *= this.acc;
     this.y += this.vy;
   }
 
@@ -71,10 +73,10 @@ function animate() {
     particle.draw();
 
     if (particle.y - particle.radius > canvasHeight) {
-        particle.y = -particle.radius;
-        particle.x = randomNumBetween(0, canvasWidth);
-        particle.radius = randomNumBetween(50, 100);
-        particle.vy = randomNumBetween(1, 5);
+      particle.y = -particle.radius;
+      particle.x = randomNumBetween(0, canvasWidth);
+      particle.radius = randomNumBetween(50, 100);
+      particle.vy = randomNumBetween(1, 5);
     }
   });
 
