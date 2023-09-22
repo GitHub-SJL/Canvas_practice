@@ -1,6 +1,6 @@
 import CanvasOption from "./js/CanvasOption.js";
 import Particle from "./js/Particle.js";
-import { randomNumberBewtween } from "./js/utils.js";
+import { hypotenuse, randomNumberBewtween } from "./js/utils.js";
 
 class Canvas extends CanvasOption {
   constructor() {
@@ -25,7 +25,10 @@ class Canvas extends CanvasOption {
     const x = randomNumberBewtween(0, this.canvasWidth);
     const y = randomNumberBewtween(0, this.canvasHeight);
     for (let i = 0; i < PARTICLE_NUM; i++) {
-      const r = randomNumberBewtween(2, 100) * 0.2;
+      const r =
+        randomNumberBewtween(2, 100) *
+        hypotenuse(innerWidth, innerHeight) *
+        0.0001;
       const angle = (Math.PI / 180) * randomNumberBewtween(0, 360);
 
       const vx = r * Math.cos(angle);
