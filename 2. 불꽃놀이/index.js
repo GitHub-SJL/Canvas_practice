@@ -1,8 +1,10 @@
 import CanvasOption from "./js/CanvasOption.js";
+import Particle from "./js/Particle.js";
 
 class Canvas extends CanvasOption {
   constructor() {
     super();
+    this.particles = [];
   }
   init() {
     this.canvasWidth = innerWidth;
@@ -13,6 +15,17 @@ class Canvas extends CanvasOption {
 
     this.canvas.style.width = this.canvasWidth + "px";
     this.canvas.style.height = this.canvasHeight + "px";
+
+    this.createParticles();
+  }
+
+  createParticles() {
+    const PARTICLE_NUM = 1;
+    for (let i = 0; i < PARTICLE_NUM; i++) {
+      const x = 300;
+      const y = 300;
+      this.particles.push(new Particle(x, y));
+    }
   }
 
   render() {
@@ -24,8 +37,13 @@ class Canvas extends CanvasOption {
       now = Date.now();
       delta = now - then;
       if (delta < this.interval) return;
+      this.ctx.fillStyle = this.bgColor;
+      this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-      this.ctx.fillRect(100, 100, 200, 200);
+      this.particles.forEach((particle) => {
+        particle.update();
+        particle.draw();
+      });
 
       then = now - (delta % this.interval);
     };
