@@ -25,12 +25,14 @@ class Canvas extends CanvasOption {
     const x = randomNumberBewtween(0, this.canvasWidth);
     const y = randomNumberBewtween(0, this.canvasHeight);
     for (let i = 0; i < PARTICLE_NUM; i++) {
-      const r = randomNumberBewtween(0, 3);
+      const r = randomNumberBewtween(2, 100) * 0.2;
       const angle = (Math.PI / 180) * randomNumberBewtween(0, 360);
 
       const vx = r * Math.cos(angle);
       const vy = r * Math.sin(angle);
-      this.particles.push(new Particle(x, y, vx, vy));
+      const opacity = randomNumberBewtween(0.6, 0.9);
+
+      this.particles.push(new Particle(x, y, vx, vy, opacity));
     }
   }
 
@@ -43,7 +45,7 @@ class Canvas extends CanvasOption {
       now = Date.now();
       delta = now - then;
       if (delta < this.interval) return;
-      this.ctx.fillStyle = this.bgColor;
+      this.ctx.fillStyle = this.bgColor + "40";
       this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
       this.particles.forEach((particle, index) => {
