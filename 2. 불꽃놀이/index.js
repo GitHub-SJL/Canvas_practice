@@ -66,6 +66,9 @@ class Canvas extends CanvasOption {
       this.ctx.fillStyle = this.bgColor + "40";
       this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
+      this.ctx.fillStyle = `rgba(255,255,255,${this.particles.length / 50000})`;
+      this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
       if (Math.random() < 0.03) this.createTail();
       this.tails.forEach((tail, index) => {
         tail.update();
@@ -91,17 +94,17 @@ class Canvas extends CanvasOption {
         particle.draw();
 
         if (Math.random() < 0.1) {
-          this.sparks.push(new Spark(particle.x, particle.y, 0, 0, 0.3,45));
+          this.sparks.push(new Spark(particle.x, particle.y, 0, 0, 0.3, 45));
         }
 
         if (particle.opacity < 0) this.particles.splice(index, 1);
       });
 
-      // this.sparks.forEach((spark, index) => {
-      //   spark.update();
-      //   spark.draw();
-      //   if (spark.opacity < 0) this.sparks.splice(index, 1);
-      // });
+      this.sparks.forEach((spark, index) => {
+        spark.update();
+        spark.draw();
+        if (spark.opacity < 0) this.sparks.splice(index, 1);
+      });
 
       then = now - (delta % this.interval);
     };
