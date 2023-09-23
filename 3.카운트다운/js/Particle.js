@@ -2,14 +2,19 @@ import { randomNumberBetween } from "./utils.js";
 
 export default class Particle {
   constructor() {
-    this.rAlpha = randomNumberBetween(0,5);
+    this.rFriction = randomNumberBetween(0.95, 1.01);
+    this.rAlpha = randomNumberBetween(0, 5);
     this.r = innerHeight / 4;
 
-    this.angleAlpha = randomNumberBetween(1,2);
+    this.angleFriction = randomNumberBetween(0.97, 0.99);
+    this.angleAlpha = randomNumberBetween(1, 2);
     this.angle = randomNumberBetween(0, 360);
   }
   update() {
-    this.r += this.rAlpha; 
+    this.rAlpha *= this.rFriction;
+    this.r += this.rAlpha;
+
+    this.angleAlpha *= this.angleFriction;
     this.angle += this.angleAlpha;
     this.x = innerWidth / 2 + this.r * Math.cos((Math.PI / 180) * this.angle);
     this.y = innerHeight / 2 + this.r * Math.sin((Math.PI / 180) * this.angle);
