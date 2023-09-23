@@ -35,6 +35,7 @@ function render() {
     now = Date.now();
     delta = now - then;
     if (delta < interval) return;
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     then = now - (delta % interval);
     particles.forEach((particle, index) => {
       particle.update();
